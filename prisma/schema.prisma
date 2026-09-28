@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Booking {
+  id          String   @id @default(cuid())
+  type        String   @default("package") // "package" | "custom"
+  packageName String?
+  addons      String? // JSON array of add-on ids
+  fullName    String
+  email       String
+  phone       String
+  travelDate  String?
+  partySize   Int?
+  destination String?
+  notes       String?
+  createdAt   DateTime @default(now())
+}
