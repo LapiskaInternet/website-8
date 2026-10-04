@@ -2,11 +2,10 @@ import { SiteHeader } from "@/components/banhu/site-header";
 import { Hero } from "@/components/banhu/hero";
 import { LiveCalendarWeather } from "@/components/banhu/live-calendar-weather";
 import { About } from "@/components/banhu/about";
-import { AddonTours } from "@/components/banhu/addon-tours";
 import { PartnerCta } from "@/components/banhu/partner-cta";
-import { TourPackages } from "@/components/banhu/tour-packages";
 import { TransportServices } from "@/components/banhu/transport-services";
 import { ExpoBanner } from "@/components/banhu/expo-banner";
+import { PlanYourTour } from "@/components/banhu/plan-your-tour";
 import { Community } from "@/components/banhu/community";
 import { BookingForm } from "@/components/banhu/booking-form";
 import { Contact } from "@/components/banhu/contact";
@@ -22,11 +21,10 @@ export default function Home() {
         <BeadDivider className="py-2" />
         <LiveCalendarWeather />
         <About />
-        <AddonTours />
         <PartnerCta />
-        <TourPackages />
         <TransportServices />
         <ExpoBanner />
+        <PlanYourTour />
         <Community />
         <BookingForm />
         <Contact />

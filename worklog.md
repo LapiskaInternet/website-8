@@ -101,3 +101,22 @@ Work Log:
 
 Stage Summary:
 - SITE COMPLETE AND VERIFIED. Single route / with all sections, two working API routes (/api/weather via Open-Meteo, /api/booking via Prisma+WhatsApp), brand-consistent design (cream/green/orange, Poppins, beadwork motifs), official logo from banhutravel.co.za, 6 uploaded posters + 4 AI-generated package photos in use
+
+---
+Task ID: 5
+Agent: main (orchestrator)
+Task: Add 5 regional packages from "Acornhoek Regional Tour Packages" PDF as a two-grid "Plan Your Tour" section (Add-On Tours | Travel Packages) placed directly before Community
+
+Work Log:
+- Generated 3 new package photos via z-ai image CLI: regional-fused-luxury.jpg (Masingitana tented camp), regional-two-villages.jpg (elder storytelling + craft market), regional-bushveld-adventure.jpg (horseback safari + giraffe); reused package-heritage.jpg and package-highveld-lowveld.jpg for the two matching themes
+- banhu-data.ts: added RegionalItineraryStop + RegionalPackage interfaces, REGIONAL_PACKAGES (5 PDF packages with full day-by-day itineraries, target audience, primary base, Group/FIT ZAR tiers, inclusions) and zar() formatter ("R 4,800" style)
+- NEW plan-your-tour.tsx (client): section#plan-your-tour with two-grid lg:grid-cols-2 — Grid 1 wrapper id="add-ons": "Plan Your Tour" card, 6 compact add-on rows (poster thumb, name, description, Add/Added toggle wired to zustand toggleAddon + toast, green added state) + local-partners note; Grid 2 wrapper id="packages": "Travel Packages" card, 5 package rows (thumb, name, duration+base, Group price right-aligned, FIT-from line, Enquire & Book → setSelectedPackage + smooth scroll to #booking, expandable Itinerary toggle aria-expanded/aria-controls revealing audience, inclusions and day-by-day timeline with day badges) + portfolio booking-conditions footnote (10+ pax group tier, Timbavati/Thornybush add-on option)
+- page.tsx: removed AddonTours + TourPackages sections (content consolidated into PlanYourTour), new section order: Hero → Live → About → Partner → Services → Events → PlanYourTour → Community → Booking → Contact (directly before Community per user); deleted addon-tours.tsx and tour-packages.tsx
+- booking-form.tsx: package Select now grouped via SelectGroup/SelectLabel — "Acornhoek Regional Packages" (5 new) + "Cross-Border & Heritage Tours" (4 original), keeping all 9 bookable
+- NAV_LINKS unchanged (#add-ons/#packages anchors preserved on the new grid wrappers)
+- FIX mobile horizontal overflow: grid items had min-width:auto blowout (scrollW 488 vs 390) — added min-w-0 to both grid wrapper divs; verified scrollW = 390
+- Verified: tsc 0 errors in src/, eslint clean; agent-browser — two-grid renders with correct data and prices, Add→Added toggles + syncs booking checkbox (Acornhoek Nightlife data-state=checked), itinerary expands with audience/inclusions/day timeline, Enquire & Book scrolls to booking and pre-selects "The Authentic Heritage & Culture Package" in grouped dropdown, section order plan-your-tour → community confirmed, mobile 390px clean, zero console/page errors
+
+Stage Summary:
+- Landing page now carries the 5-package regional master portfolio with ZAR pricing and full itineraries in a two-grid Plan Your Tour section directly before Community; add-ons + packages shopping consolidated (old sections removed), all 9 packages remain bookable in the form dropdown
+- Files: new src/components/banhu/plan-your-tour.tsx; edited banhu-data.ts, page.tsx, booking-form.tsx; deleted addon-tours.tsx, tour-packages.tsx; 3 new images in public/images

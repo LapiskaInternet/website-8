@@ -3,7 +3,11 @@
 import { useState } from "react";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 
-import { ADDONS, PACKAGES } from "@/lib/banhu-data";
+import {
+  ADDONS,
+  PACKAGES,
+  REGIONAL_PACKAGES,
+} from "@/lib/banhu-data";
 import { useBookingStore } from "@/lib/booking-store";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -14,7 +18,9 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -197,11 +203,22 @@ export function BookingForm() {
                     <SelectItem value="none">
                       No package — add-ons only
                     </SelectItem>
-                    {PACKAGES.map((p) => (
-                      <SelectItem key={p.id} value={p.name}>
-                        {p.name}
-                      </SelectItem>
-                    ))}
+                    <SelectGroup>
+                      <SelectLabel>Acornhoek Regional Packages</SelectLabel>
+                      {REGIONAL_PACKAGES.map((p) => (
+                        <SelectItem key={p.id} value={p.name}>
+                          {p.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                    <SelectGroup>
+                      <SelectLabel>Cross-Border &amp; Heritage Tours</SelectLabel>
+                      {PACKAGES.map((p) => (
+                        <SelectItem key={p.id} value={p.name}>
+                          {p.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
                   </SelectContent>
                 </Select>
               </div>
