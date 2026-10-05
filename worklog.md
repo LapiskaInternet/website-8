@@ -120,3 +120,31 @@ Work Log:
 Stage Summary:
 - Landing page now carries the 5-package regional master portfolio with ZAR pricing and full itineraries in a two-grid Plan Your Tour section directly before Community; add-ons + packages shopping consolidated (old sections removed), all 9 packages remain bookable in the form dropdown
 - Files: new src/components/banhu/plan-your-tour.tsx; edited banhu-data.ts, page.tsx, booking-form.tsx; deleted addon-tours.tsx, tour-packages.tsx; 3 new images in public/images
+
+---
+Task ID: 6
+Agent: main (orchestrator)
+Task: Tour operator + travel agency restructure — packages pop-out modal, dedicated Tours & Travel Agency pages, home page services slider + highlights
+
+Work Log:
+- Generated 2 new service images via z-ai CLI: shuttle-service.jpg (minibus on bushveld road), travel-agency.jpg (consultant planning trip with couple)
+- NEW src/lib/site-store.ts: zustand store {view: "home"|"tours"|"travel-agency", packagesOpen} + goToSection() (switches home first, then smooth-scrolls), enquirePackage() (setSelectedPackage → closePackages → goToSection("booking"))
+- banhu-data.ts: added SERVICE_SLIDES (6 slider slides with tags/images/points), TRAVEL_AGENCY_SERVICES (6 agency services); removed NAV_LINKS (nav now action-based)
+- NEW site-action.tsx: <SiteAction kind="view"|"packages"|"anchor"> client trigger usable inside server components (hero/footer/highlights); preventDefault + store action
+- NEW services-slider.tsx (home): embla Carousel loop:true, 6 full-width slides (image + tag badge + title + points + CTA), interval autoplay 5.5s (pauses on hover/focus + document.hidden), setApi-based dots with aria-current + sr-only slide status, prev/next arrows
+- NEW home-highlights.tsx: "Two Divisions, One Team" — 3 cards (Tour Operator / Travel Agency / Transport) with bullets and SiteAction CTAs (tours view, packages modal, agency view)
+- NEW packages-modal.tsx: Travel Agency Packages pop-out Dialog — grouped 4 cross-border ("Custom quote") + 5 regional (group/FIT prices), 9 Enquire buttons → enquirePackage, footer buttons switch to Tours/Travel Agency views; mounted globally in PageViews so it pops from anywhere
+- NEW page-hero.tsx: shared dedicated-page header band (dark green topo, Back to Home, eyebrow/title/description, chips) + shared CtaBand (Book Your Tour → #booking + WhatsApp)
+- NEW tours-page.tsx (dedicated Tours view): PageHero chips; #add-ons 6-card add-on grid (Add to Booking → zustand toggle + toast); 4 cross-border package cards (image, duration badge, highlights, Enquire & Book + WhatsApp); #packages 5 regional rows with expandable day-by-day itineraries; CtaBand
+- NEW travel-agency-page.tsx (dedicated Travel Agency view): PageHero; intro card with travel-agency.jpg + "View All Travel Agency Packages" (opens modal); 6 Travel Agency Services cards; reuses <TransportServices/> (id="services"); CtaBand
+- NEW page-views.tsx: client view switch on "/" (sandbox single-route) — home (Hero → BeadDivider → ServicesSlider → HomeHighlights → Live → About → Partner → Expo → Community → Booking → Contact) | ToursPage | TravelAgencyPage, document.title per view, instant scroll-top on view change, PackagesModal always mounted
+- site-header.tsx: nav rebuilt as actions — Home, Tours, Travel Agency, Packages (modal), Events, Community, Contact; active view pill (aria-current=page); logo + Book Now via SiteAction; mobile sheet buttons close sheet then dispatch action
+- hero.tsx: added "Tour Operator & Travel Agency" badge, "Explore Add-On Tours" → "Explore Our Tours" (tours view)
+- site-footer.tsx: quick links updated (Tours & Packages, Travel Agency, Travel Packages via SiteAction; dead #add-ons/#packages/#services anchors removed)
+- Removed plan-your-tour.tsx (content absorbed by dedicated pages + modal); page.tsx now renders SiteHeader/PageViews/SiteFooter
+- Verification: tsc 0 errors in src/, eslint clean; agent-browser — home slider autoplay + 6 dots + CTAs verified, highlights render, Tours view (title/active nav/addon toggle + toast/itinerary expander/9 enquire buttons), Travel Agency view, packages modal 9 rows + Enquire → modal closed + home + booking scrolled + "Highveld to Lowveld" preselected, cross-view anchor nav (Community from Tours view → home scroll), modal "Tours page" button, addon checkbox sync into booking form (1 checked), mobile 390px (no horizontal overflow, hamburger sheet active states, scrollable modal, footer), zero console/page errors, dev.log all 200s
+
+Stage Summary:
+- Site now presents Banhu as tour operator + travel agency: home page is highlights-only with a 6-slide services slider and packages pop-out; dedicated Tours and Travel Agency pages carry the full detail (add-ons, 4 cross-border packages, 5 regional itineraries, agency services, transport)
+- Single-route constraint respected: dedicated pages are client-side views via src/lib/site-store.ts (document.title changes per view); all booking flows (Enquire/Add to Booking) still land on the home #booking form with prefilled state
+- Files: new site-store.ts, site-action.tsx, services-slider.tsx, home-highlights.tsx, packages-modal.tsx, page-hero.tsx, tours-page.tsx, travel-agency-page.tsx, page-views.tsx; edited banhu-data.ts, page.tsx, site-header.tsx, hero.tsx, site-footer.tsx; deleted plan-your-tour.tsx; 2 new images (shuttle-service.jpg, travel-agency.jpg)

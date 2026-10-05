@@ -12,12 +12,33 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { NAV_LINKS } from "@/lib/banhu-data";
+import {
+  goToSection,
+  useSiteStore,
+  type SiteView,
+} from "@/lib/site-store";
+import { SiteAction } from "@/components/banhu/site-action";
 import { cn } from "@/lib/utils";
+
+type NavItem =
+  | { kind: "anchor"; href: string; label: string }
+  | { kind: "view"; view: SiteView; label: string }
+  | { kind: "packages"; label: string };
+
+const NAV_ITEMS: NavItem[] = [
+  { kind: "anchor", href: "#home", label: "Home" },
+  { kind: "view", view: "tours", label: "Tours" },
+  { kind: "view", view: "travel-agency", label: "Travel Agency" },
+  { kind: "packages", label: "Packages" },
+  { kind: "anchor", href: "#events", label: "Events" },
+  { kind: "anchor", href: "#community", label: "Community" },
+  { kind: "anchor", href: "#contact", label: "Contact" },
+];
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const view = useSiteStore((s) => s.view);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -25,6 +46,20 @@ export function SiteHeader() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const isItemActive = (item: NavItem) =>
+    item.kind === "view" && view === item.view;
+
+  const handleMobileItem = (item: NavItem) => {
+    setOpen(false);
+    if (item.kind === "view") {
+      useSiteStore.getState().setView(item.view);
+    } else if (item.kind === "packages") {
+      useSiteStore.getState().openPackages();
+    } else {
+      goToSection(item.href);
+    }
+  };
 
   return (
     <header
@@ -34,7 +69,8 @@ export function SiteHeader() {
       )}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 md:h-[4.5rem]">
-        <a
+        <SiteAction
+          kind="anchor"
           href="#home"
           className="flex items-center gap-2.5"
           aria-label="Banhu Tourism — home"
@@ -51,25 +87,34 @@ export function SiteHeader() {
               Banhu Tourism
             </span>
             <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-banhu-orange-dark">
-              Travel &amp; Tours · Mpumalanga
+              Tour Operator &amp; Travel Agency
             </span>
           </span>
-        </a>
+        </SiteAction>
 
         <div className="flex items-center gap-2">
           <nav
             aria-label="Main navigation"
             className="hidden items-center gap-0.5 lg:flex"
           >
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium text-banhu-green-dark/80 transition-colors hover:bg-banhu-cream-dark hover:text-banhu-orange-dark"
-              >
-                {link.label}
-              </a>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const active = isItemActive(item);
+              return (
+                <SiteAction
+                  key={item.label}
+                  {...item}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "whitespace-nowrap rounded-full px-3 py-2 text-sm font-medium transition-colors",
+                    active
+                      ? "bg-banhu-green text-banhu-cream hover:bg-banhu-green-dark"
+                      : "text-banhu-green-dark/80 hover:bg-banhu-cream-dark hover:text-banhu-orange-dark"
+                  )}
+                >
+                  {item.label}
+                </SiteAction>
+              );
+            })}
           </nav>
 
           <div
@@ -86,7 +131,9 @@ export function SiteHeader() {
           </div>
 
           <Button asChild size="sm" className="hidden sm:inline-flex">
-            <a href="#booking">Book Now</a>
+            <SiteAction kind="anchor" href="#booking">
+              Book Now
+            </SiteAction>
           </Button>
 
           <Sheet open={open} onOpenChange={setOpen}>
@@ -119,20 +166,30 @@ export function SiteHeader() {
                 aria-label="Mobile navigation"
                 className="flex flex-col gap-1"
               >
-                {NAV_LINKS.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className="rounded-xl px-3 py-2.5 text-sm font-medium text-banhu-green-dark/80 transition-colors hover:bg-banhu-cream-dark hover:text-banhu-orange-dark"
-                  >
-                    {link.label}
-                  </a>
-                ))}
-                <Button asChild className="mt-3 w-full font-semibold">
-                  <a href="#booking" onClick={() => setOpen(false)}>
-                    Book Now
-                  </a>
+                {NAV_ITEMS.map((item) => {
+                  const active = isItemActive(item);
+                  return (
+                    <button
+                      key={item.label}
+                      type="button"
+                      onClick={() => handleMobileItem(item)}
+                      aria-current={active ? "page" : undefined}
+                      className={cn(
+                        "rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-colors",
+                        active
+                          ? "bg-banhu-green text-banhu-cream"
+                          : "text-banhu-green-dark/80 hover:bg-banhu-cream-dark hover:text-banhu-orange-dark"
+                      )}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
+                <Button
+                  className="mt-3 w-full font-semibold"
+                  onClick={() => handleMobileItem({ kind: "anchor", href: "#booking", label: "Book Now" })}
+                >
+                  Book Now
                 </Button>
               </nav>
             </SheetContent>

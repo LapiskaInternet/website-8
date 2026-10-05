@@ -1,6 +1,7 @@
 import Image from "next/image";
 import {
   BadgeCheck,
+  Briefcase,
   CalendarDays,
   Handshake,
   MapPin,
@@ -8,6 +9,7 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { SiteAction } from "@/components/banhu/site-action";
 
 export function Hero() {
   return (
@@ -17,10 +19,16 @@ export function Hero() {
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
           {/* Left column */}
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-banhu-sand bg-banhu-paper px-4 py-1.5 text-xs font-semibold text-banhu-green-dark shadow-sm">
-              <MapPin className="h-3.5 w-3.5 text-banhu-orange-dark" />
-              Acornhoek · Mpumalanga · South Africa
-            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-full border border-banhu-sand bg-banhu-paper px-4 py-1.5 text-xs font-semibold text-banhu-green-dark shadow-sm">
+                <MapPin className="h-3.5 w-3.5 text-banhu-orange-dark" />
+                Acornhoek · Mpumalanga · South Africa
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-banhu-sand bg-banhu-paper px-4 py-1.5 text-xs font-semibold text-banhu-green-dark shadow-sm">
+                <Briefcase className="h-3.5 w-3.5 text-banhu-orange-dark" />
+                Tour Operator &amp; Travel Agency
+              </span>
+            </div>
             <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.1] text-banhu-green-dark sm:text-5xl lg:text-[3.4rem]">
               Experience the <span className="text-banhu-orange">Heritage</span>{" "}
               of Mpumalanga
@@ -41,7 +49,9 @@ export function Hero() {
                 variant="outline"
                 className="border-banhu-orange text-banhu-orange-dark hover:bg-banhu-orange hover:text-white font-semibold"
               >
-                <a href="#add-ons">Explore Add-On Tours</a>
+                <SiteAction kind="view" view="tours">
+                  Explore Our Tours
+                </SiteAction>
               </Button>
               <Button
                 asChild

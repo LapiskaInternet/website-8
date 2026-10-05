@@ -453,12 +453,132 @@ export const SHUTTLES = [
   "Comfortable minibuses, experienced local drivers",
 ];
 
-export const NAV_LINKS = [
-  { href: "#home", label: "Home" },
-  { href: "#add-ons", label: "Add-On Tours" },
-  { href: "#packages", label: "Packages" },
-  { href: "#services", label: "Services" },
-  { href: "#events", label: "Events" },
-  { href: "#community", label: "Community" },
-  { href: "#contact", label: "Contact" },
+/** Slides for the home-page services slider. */
+export interface ServiceSlide {
+  id: string;
+  tag: string;
+  title: string;
+  description: string;
+  image: string;
+  points: string[];
+}
+
+export const SERVICE_SLIDES: ServiceSlide[] = [
+  {
+    id: "heritage-tours",
+    tag: "Tour Operator",
+    title: "Guided Heritage & Cultural Tours",
+    description:
+      "Storytelling, heritage walks and authentic bushveld experiences led by guides who grew up in these villages — where every path has a story.",
+    image: "/images/bushbuckridge-heritage-tour.png",
+    points: [
+      "Heritage walks & boma-fire storytelling",
+      "Mariepskop sunrise & Mpisane battle site",
+      "Community-rooted local guides",
+    ],
+  },
+  {
+    id: "tour-packages",
+    tag: "Tour Operator",
+    title: "Multi-Day Tour Packages",
+    description:
+      "Fully structured journeys from the Panorama Route to the Kruger fringe — accommodation, transport, meals and guides arranged end to end.",
+    image: "/images/package-highveld-lowveld.jpg",
+    points: [
+      "Highveld to Lowveld corridor",
+      "Panorama Route, Graskop & Pilgrim's Rest",
+      "Custom quotes with group tiers",
+    ],
+  },
+  {
+    id: "cross-border",
+    tag: "Travel Agency",
+    title: "Cross-Border Journeys",
+    description:
+      "Travel agency packages linking Mpumalanga with our neighbours — from Maputo's coastline to the craft markets of the Kingdom of Eswatini.",
+    image: "/images/package-maputo-acornhoek.jpg",
+    points: [
+      "Maputo to Acornhoek (4–6 days)",
+      "Swaziland to Acornhoek (3–5 days)",
+      "Border crossings coordinated",
+    ],
+  },
+  {
+    id: "transfers",
+    tag: "Transport",
+    title: "Airport Transfers & Shuttles",
+    description:
+      "Door-to-door airport transfers and scheduled or private shuttles across the Lowveld — start and end every journey the easy way.",
+    image: "/images/shuttle-service.jpg",
+    points: [
+      "Eastgate, KMIA, Skukuza, OR Tambo",
+      "Group & event transport",
+      "Experienced local drivers",
+    ],
+  },
+  {
+    id: "travel-agency",
+    tag: "Travel Agency",
+    title: "Full Travel Agency Services",
+    description:
+      "Itineraries, accommodation and bookings planned under one roof — tell us where you want to be and we build the trip around you.",
+    image: "/images/travel-agency.jpg",
+    points: [
+      "Custom itinerary planning",
+      "Accommodation booking",
+      "9 bookable packages",
+    ],
+  },
+  {
+    id: "add-ons",
+    tag: "Experiences",
+    title: "Add-On Cultural Experiences",
+    description:
+      "Nightlife runs, sacred walks, rural traditions and fire-side storytelling — short experiences that attach to any package or custom tour.",
+    image: "/images/addon-boma-storytelling.png",
+    points: [
+      "6 signature add-ons",
+      "Delivered with local partners",
+      "Half-day to full-evening",
+    ],
+  },
+];
+
+/** Service list for the dedicated Travel Agency page. */
+export interface TravelService {
+  title: string;
+  description: string;
+}
+
+export const TRAVEL_AGENCY_SERVICES: TravelService[] = [
+  {
+    title: "Custom Itinerary Planning",
+    description:
+      "Day-by-day routes built around your dates, budget and interests — from a single afternoon to a two-week corridor journey.",
+  },
+  {
+    title: "Accommodation Booking",
+    description:
+      "From village guest houses to luxury tented safari camps — we reserve, confirm and reconfirm every night of your stay.",
+  },
+  {
+    title: "Tour & Safari Packages",
+    description:
+      "Nine bookable packages across heritage, safari, adventure and cross-border themes, with transparent group and FIT pricing.",
+  },
+  {
+    title: "Airport Transfers",
+    description:
+      "Meet-and-greet transfers to and from Eastgate, Kruger Mpumalanga, Skukuza and OR Tambo — flights tracked, day or night.",
+  },
+  {
+    title: "Group & Event Transport",
+    description:
+      "Minibuses and shuttles for weddings, school groups, conferences and church gatherings across the province.",
+  },
+  {
+    title: "Cross-Border Coordination",
+    description:
+      "Mozambique and Eswatini journeys with border timings, travel-document guidance and connections handled for you.",
+  },
 ];

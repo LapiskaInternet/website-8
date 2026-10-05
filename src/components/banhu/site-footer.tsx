@@ -2,17 +2,25 @@ import Image from "next/image";
 import { Building2, FileText, Mail, Phone } from "lucide-react";
 
 import { CONTACT } from "@/lib/banhu-data";
+import { SiteAction } from "@/components/banhu/site-action";
 
-const QUICK_LINKS: { href: string; label: string }[] = [
-  { href: "#home", label: "Home" },
-  { href: "#add-ons", label: "Add-On Tours" },
-  { href: "#packages", label: "Packages" },
-  { href: "#services", label: "Services" },
-  { href: "#events", label: "Events" },
-  { href: "#community", label: "Community" },
-  { href: "#booking", label: "Book Now" },
-  { href: "#contact", label: "Contact" },
-  { href: "#partner", label: "Become a Partner" },
+const QUICK_LINKS: {
+  kind: "anchor" | "view" | "packages";
+  label: string;
+  href?: string;
+  view?: "tours" | "travel-agency";
+}[] = [
+  { kind: "anchor", href: "#home", label: "Home" },
+  { kind: "view", view: "tours", label: "Tours & Packages" },
+  { kind: "view", view: "travel-agency", label: "Travel Agency" },
+  { kind: "packages", label: "Travel Packages" },
+  { kind: "anchor", href: "#live", label: "Weather & Calendar" },
+  { kind: "anchor", href: "#about", label: "About Us" },
+  { kind: "anchor", href: "#events", label: "Events" },
+  { kind: "anchor", href: "#community", label: "Community" },
+  { kind: "anchor", href: "#booking", label: "Book Now" },
+  { kind: "anchor", href: "#contact", label: "Contact" },
+  { kind: "anchor", href: "#partner", label: "Become a Partner" },
 ];
 
 export function SiteFooter() {
@@ -50,13 +58,15 @@ export function SiteFooter() {
           </h3>
           <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5 text-sm">
             {QUICK_LINKS.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
+              <li key={link.label}>
+                <SiteAction
+                  kind={link.kind}
+                  href={link.href ?? "#home"}
+                  view={link.view}
                   className="transition-colors hover:text-banhu-orange-light"
                 >
                   {link.label}
-                </a>
+                </SiteAction>
               </li>
             ))}
           </ul>
